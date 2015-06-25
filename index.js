@@ -3,6 +3,8 @@ var app = express();
 var nn = require('./neuralnetwork');
 var _ = require("underscore")._;
 
+app.set('port', (process.env.PORT || 5000));
+
 app.get('/', function (req, res) {
 	
 	var input = parseInput(req);
@@ -10,13 +12,6 @@ app.get('/', function (req, res) {
 	var output = nn.run(input);
 		
 	res.json(filter(input, output));
-});
-
-var server = app.listen(3000, function () {
-
-  var port = server.address().port;
-
-  console.log('Listening at port: %s', port);
 });
 
 function parseInput(req) {
