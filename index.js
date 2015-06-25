@@ -14,6 +14,10 @@ app.get('/', function (req, res) {
 	res.json(filter(input, output));
 });
 
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
+
 function parseInput(req) {
 	if(req.query.enemy == null || req.query.enemy.trim().length == 0) {
 		res.send('Please send "enemy" and "ally" params.<br>Ex: ally=Luna,Omniknight,Sven,Wraith King&enemy=Phantom Lancer,Slark,Pugna,Jakiro,Windranger');
