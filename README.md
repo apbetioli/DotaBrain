@@ -1,6 +1,6 @@
 # DotaBrain
 
-NodeJS app for learning and suggesting the best counter pick
+App for learning and suggesting the best counter pick
 
 ## Install
 
