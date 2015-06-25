@@ -1,0 +1,7 @@
+{
+  "name": "DotaBrain",
+  "description": "App for learning and suggesting the best counter pick",
+  "repository": "https://github.com/apbetioli/DotaBrain",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["dota 2", "counter pick"]
+}

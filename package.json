@@ -1,0 +1,28 @@
+{
+  "name": "DotaBrain",
+  "version": "0.0.1",
+  "description": "App for learning and suggesting the best counter pick",
+  "author": "Alexandre Betioli",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "brain": "latest",
+    "express": "latest",
+	"underscore": "latest"
+  },
+  "engines": {
+    "node": "0.12.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apbetioli/DotaBrain.git"
+  },
+   "keywords": [
+    "dota 2",
+    "dota",
+    "counter pick"
+  ]
+  
+}
