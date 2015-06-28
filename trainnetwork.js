@@ -94,13 +94,12 @@ function train(matches, finishedTraining) {
 
     net.train(trainingData, {
         log: true,
-        iterations: 1000,
+        iterations: 5000,
         learningRate: 0.5
     });
 }
 
-
-var time = function() {
+function time() {
     var date = new Date();
 
     var hour = date.getHours();
