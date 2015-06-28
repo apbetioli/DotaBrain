@@ -11,6 +11,6 @@ npm install
 ## Run
 
 ```
-node app.js
+node server.js
 ```
 

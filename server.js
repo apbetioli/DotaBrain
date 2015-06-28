@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var nn = require('./neuralnetwork');
+var net = require('./net');
 var _ = require("underscore")._;
 
 app.set('port', (process.env.PORT || 5000));
@@ -8,10 +8,15 @@ app.set('port', (process.env.PORT || 5000));
 app.get('/', function (req, res) {
 	
 	var input = parseInput(req, res);
-	
-	var output = nn.run(input);
-		
-	res.json(filter(input, output));
+
+	console.log('Input:' + JSON.stringify(input, null, 4));
+
+	var output = net.run(input);
+	var result = filter(input, output);
+
+	console.log('Output:' + JSON.stringify(result, null, 4));
+
+	res.json(result);
 });
 
 app.listen(app.get('port'), function() {
@@ -29,12 +34,15 @@ function parseInput(req, res) {
 	var allies = req.query.ally != null ? req.query.ally.split(',') : []; 
 	var enemies = req.query.enemy.split(',');
 
-	for(i in allies)
+	allies.sort();
+	enemies.sort();
+
+	for(var i in allies)
 		input[allies[i].trim()] = 1;
 	
-	for(i in enemies)
+	for(var i in enemies)
 		input[enemies[i].trim()] = -1;
-	
+
 	return input;
 }
 
@@ -44,7 +52,7 @@ function filter(input, output) {
 
 	var inputs = Object.keys(input);
 	var keys = Object.keys(output);
-	for(i in keys) {
+	for(var i in keys) {
 		if(! _.contains(inputs, keys[i]))
 			result.push({name:keys[i], value:output[keys[i]]});
 	}

@@ -3,14 +3,15 @@
   "version": "0.0.1",
   "description": "App for learning and suggesting the best counter pick",
   "author": "Alexandre Betioli",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "brain": "latest",
     "express": "latest",
-	"underscore": "latest"
+	"underscore": "latest",
+    "mongojs": "latest"
   },
   "engines": {
     "node": "0.12.5"
