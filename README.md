@@ -8,7 +8,23 @@ App for learning and suggesting the best counter pick
 npm install
 ```
 
-## Run
+## Depends
+
+Depends on Dota2Mongo to populate the database.
+
+## Prepare the data
+
+```
+node prepare.js
+```
+
+## Train the network
+
+```
+node train.js
+```
+
+## Run the server
 
 ```
 node server.js
