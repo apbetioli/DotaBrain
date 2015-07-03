@@ -12,7 +12,7 @@ trainStream = net.createTrainStream({
     doneTrainingCallback: doneTraining,
     log: true,
     iterations: 5000,
-    learningRate: 0.5
+    learningRate: 0.9
 });
 
 flood();

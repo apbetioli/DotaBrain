@@ -20,11 +20,20 @@ db.validating.find().forEach(function (err, data) {
     var keys = Object.keys(output);
     var dataKeys = Object.keys(data.output);
 
-    if (keys[0] === dataKeys[0]) {
+    var found = false;
+
+    for(var i in dataKeys) {
+        if (keys[i] == dataKeys[0]) {
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
         ok++;
     }
     else {
-        //console.log('Expected <' + keys[0] + '> but was <' + dataKeys[0] + '>');
+        console.log('Expected <' + keys[0] + '> but was <' + dataKeys[0] + '>');
         nok++;
     }
 

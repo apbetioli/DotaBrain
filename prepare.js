@@ -8,8 +8,8 @@ db.heroes.find(function (err, heroes) {
     for (var h in heroes)
         heroesNames[heroes[h].id] = heroes[h].localized_name;
 
-    prepareMatches(1000, 0, db.training);
-    prepareMatches(200, 1000,  db.validating);
+    prepareMatches(5000, 0, db.training);
+    prepareMatches(200, 5000,  db.validating);
 
 });
 
