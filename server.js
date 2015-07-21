@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
 var net = require('./net');
-var _ = require("underscore")._;
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -11,8 +10,7 @@ app.get('/', function (req, res) {
 
 	console.log('Input:' + JSON.stringify(input, null, 4));
 
-	var output = net.run(input);
-	var result = filter(input, output);
+	var result = net.run(input);
 
 	console.log('Output:' + JSON.stringify(result, null, 4));
 
@@ -46,20 +44,3 @@ function parseInput(req, res) {
 	return input;
 }
 
-function filter(input, output) {
-
-	var result = [];
-
-	var inputs = Object.keys(input);
-	var keys = Object.keys(output);
-	for(var i in keys) {
-		if(! _.contains(inputs, keys[i]))
-			result.push({name:keys[i], value:output[keys[i]]});
-	}
-	
-	result.sort(function(a, b){
-		return b.value - a.value;
-	});
-
-	return result.length < 10 ? result : result.slice(0, 10);
-}
