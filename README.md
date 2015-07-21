@@ -10,7 +10,7 @@ npm install
 
 ## Depends
 
-Depends on Dota2Mongo to populate the database.
+Depends on <a href="https://github.com/apbetioli/Dota2Mongo">Dota2Mongo</a> to populate the database.
 
 ## Prepare the data
 
