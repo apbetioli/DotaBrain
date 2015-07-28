@@ -1,12 +1,13 @@
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/dota', ['validating']);
+var db = mongojs('mongodb://localhost:27017/dota', ['validating', 'training']);
 
 var net = require('./net');
+net.load();
 
 var ok = 0;
 var nok = 0;
 
-db.validating.find().forEach(function (err, data) {
+db.training.find().limit(100).forEach(function (err, data) {
 
     if (!data) {
         console.log('OK: ' + ok);
@@ -15,27 +16,19 @@ db.validating.find().forEach(function (err, data) {
         return;
     }
 
-    var output = net.run(data.input);
+    nok++;
 
-    var keys = Object.keys(output);
+    var output = net.run(data.input);
     var dataKeys = Object.keys(data.output);
 
-    var found = false;
-
-    for(var i in dataKeys) {
-        if (keys[i] == dataKeys[0]) {
-            found = true;
-            break;
+    for (var i in output) {
+        for (var j in dataKeys) {
+            if (output[i].name == dataKeys[j]) {
+                ok++;
+                nok--;
+                break;
+            }
         }
     }
-
-    if (found) {
-        ok++;
-    }
-    else {
-        console.log('Expected <' + keys[0] + '> but was <' + dataKeys[0] + '>');
-        nok++;
-    }
-
 
 });

@@ -3,22 +3,29 @@ var brain = require('brain');
 var mongojs = require('mongojs');
 
 var db = mongojs('mongodb://localhost:27017/dota', ['training']);
-var net = new brain.NeuralNetwork();
+var net = new brain.NeuralNetwork({
+    momentum : 0.8
+});
 
-console.log('Start at: ' + time());
+var initialTime =  new Date();
 
 trainStream = net.createTrainStream({
     floodCallback: flood,
     doneTrainingCallback: doneTraining,
     log: true,
-    iterations: 5000,
-    learningRate: 0.9
+    learningRate: 0.3
 });
 
 flood();
 
 function flood() {
+    fs.writeFile("data/network.json", JSON.stringify(net.toJSON()), function (err) {
+        if (err) throw err;
+    });
+
     db.training.find().forEach(function (err, data) {
+        if (err) throw err;
+
         if (data)
             trainStream.write(data);
         else
@@ -28,19 +35,13 @@ function flood() {
 
 function doneTraining(info) {
     console.log("Done!");
-    console.log('End at: ' + time());
+    console.log('Started: ' + time(initialTime));
+    console.log('Ended: ' + time(new Date()));
 
-    fs.writeFile("data/network.json", JSON.stringify(net.toJSON()), function (err) {
-        if (err)
-            throw err;
-
-        db.close();
-    });
+    db.close();
 }
 
-function time() {
-    var date = new Date();
-
+function time(date) {
     var hour = date.getHours();
     hour = (hour < 10 ? "0" : "") + hour;
 

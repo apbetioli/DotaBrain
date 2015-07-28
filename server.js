@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var net = require('./net');
 
+net.load();
+
 app.set('port', (process.env.PORT || 5000));
 
 app.get('/', function (req, res) {

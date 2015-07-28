@@ -2,15 +2,21 @@ var mongojs = require('mongojs');
 var db = mongojs('mongodb://localhost:27017/dota', ['matches', 'heroes', 'training', 'validating']);
 
 var heroesNames = {};
-var size = 5000;
+var heroesIndex = {};
+var size = 10;
 
-db.heroes.find(function (err, heroes) {
+db.heroes.find().sort({localized_name: 1}, function (err, heroes) {
 
-    for (var h in heroes)
+    var i = 0;
+    for (var h in heroes) {
         heroesNames[heroes[h].id] = heroes[h].localized_name;
+        heroesIndex[heroes[h].localized_name] = i++;
+    }
+
+    console.log(JSON.stringify(heroesIndex));
 
     prepareMatches(size, 0, db.training);
-    prepareMatches(size/10, size,  db.validating);
+    //prepareMatches(size / 10, size, db.validating);
 
 });
 
@@ -55,7 +61,7 @@ function generateTrainingData(match) {
     var dires = [];
 
     for (var i in match.players) {
-        if(match.players[i].hero_id == 0) {
+        if (match.players[i].hero_id == 0) {
             console.log('Invalid hero from match: ' + match.match_id);
             return trainingData;
         }
@@ -76,18 +82,29 @@ function generateTrainingData(match) {
     for (var x = 0; x < 5; x++) {
 
         var data = {
-            input: {},
-            output: {}
+            input: [],
+            output: []
         };
 
-        data.output[winners[x]] = 1;
+        for (var i = 0; i < 110; i++) {
+            data.input.push(0);
+            data.output.push(0);
+        }
 
-        for (var y = 0; y < 5; y++)
-            if (y != x)
-                data.input[winners[y]] = 1;
+        var index = heroesIndex[winners[x]];
+        data.output[index] = 1;
 
-        for (var y = 0; y < 5; y++)
-            data.input[loosers[y]] = -1;
+        for (var y = 0; y < 5; y++) {
+            if (x != y) {
+                var index = heroesIndex[winners[y]];
+                data.input[index] = 1;
+            }
+        }
+
+        for (var y = 0; y < 5; y++) {
+            var index = heroesIndex[loosers[y]];
+            data.input[index] = -1;
+        }
 
         trainingData.push(data);
     }

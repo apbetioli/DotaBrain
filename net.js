@@ -1,11 +1,16 @@
 var fs = require('fs');
 var _ = require("underscore")._;
 
-var networkData = JSON.parse(fs.readFileSync('data/network.json', 'utf8'));
-
 var brain = require('brain');
+
 var net = new brain.NeuralNetwork();
-net.fromJSON(networkData);
+
+function load() {
+	var networkData = JSON.parse(fs.readFileSync('data/network.json', 'utf8'));
+	net.fromJSON(networkData);
+}
+
+exports.load = load;
 
 console.log('Network loaded.');
 
